@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR Kompyuter Laboratoriyasi</title>
+
+    <!-- A-Frame kutubxonasi -->
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #panel {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            width: 260px;
+        }
+
+        #message {
+            color: yellow;
+            font-weight: bold;
+        }
+
+        #progress {
+            color: #4cff8b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="panel">
+        <h3>VR O‘QUV TRENAJORI</h3>
+        <p>Kompyuter laboratoriyasi xavfsizligi</p>
+
+        <p id="step">1-bosqich: Himoya vositalarini tekshiring</p>
+        <p id="progress">Bajarilgan: 0 / 4</p>
+        <p id="errors">Xatolar: 0</p>
+        <p id="timer">Vaqt: 0 soniya</p>
+        <p id="message">Boshlash uchun kerakli obyektni bosing.</p>
+
+        <button onclick="restartSimulation()">Qayta boshlash</button>
+        <div id="resultPanel" style="
+    display:none;
+    background:#183b56;
+    padding:15px;
+    margin-top:10px;
+    border-radius:10px;
+">
+    <h3>YAKUNIY NATIJA</h3>
+    <p id="finalSteps"></p>
+    <p id="finalErrors"></p>
+    <p id="finalTime"></p>
+</div>
+    </div>
+
+
+
+    <a-scene background="color: #87CEEB">
+
+        <!-- Yorug‘lik -->
+        <a-light type="ambient" intensity="0.8"></a-light>
+        <a-light type="directional"
+                 position="0 5 3"
+                 intensity="1"></a-light>
+
+        <!-- Pol -->
+        <a-plane rotation="-90 0 0"
+                 width="15"
+                 height="15"
+                 color="#777777">
+        </a-plane>
+
+        <!-- Orqa devor -->
+        <a-box position="0 2 -5"
+               width="12"
+               height="4"
+               depth="0.2"
+               color="#eeeeee">
+        </a-box>
+
+        <!-- Stol -->
+        <a-box position="0 0.8 -2"
+               width="3"
+               height="0.15"
+               depth="1.5"
+               color="#8B4513">
+        </a-box>
+
+        <!-- Kompyuter monitori -->
+        <a-box position="0 1.5 -2.3"
+               width="1"
+               height="0.7"
+               depth="0.1"
+               color="#222222">
+        </a-box>
+
+        <!-- Klaviatura -->
+        <a-box position="0 0.95 -1.8"
+               width="0.8"
+               height="0.05"
+               depth="0.3"
+               color="#333333">
+        </a-box>
+
+        <!-- 1. Himoya vositasi -->
+        <a-box id="step1"
+               class="clickable"
+               position="-2 1 -2"
+               color="#00cc66"
+               width="0.5"
+               height="0.5"
+               depth="0.5">
+        </a-box>
+
+        <a-text value="HIMOYA VOSITASI"
+                position="-2 1.4 -2"
+                align="center"
+                color="black"
+                width="3">
+        </a-text>
+
+        <!-- 2. Elektr simi -->
+        <a-cylinder id="step2"
+                    class="clickable"
+                    position="2 1 -2"
+                    radius="0.25"
+                    height="0.5"
+                    color="#ff9900">
+        </a-cylinder>
+
+        <a-text value="ELEKTR SIMI"
+                position="2 1.4 -2"
+                align="center"
+                color="black"
+                width="3">
+        </a-text>
+
+        <!-- 3. Kompyuterni yoqish -->
+        <a-sphere id="step3"
+                  class="clickable"
+                  position="-1 1 -3"
+                  radius="0.3"
+                  color="blue">
+        </a-sphere>
+
+        <a-text value="YOQISH"
+                position="-1 1.4 -3"
+                align="center"
+                color="black"
+                width="3">
+        </a-text>
+
+        <!-- 4. Kompyuterni o‘chirish -->
+        <a-sphere id="step4"
+                  class="clickable"
+                  position="1 1 -3"
+                  radius="0.3"
+                  color="red">
+        </a-sphere>
+
+        <a-text value="O‘CHIRISH"
+                position="1 1.4 -3"
+                align="center"
+                color="black"
+                width="3">
+        </a-text>
+
+        <!-- Kamera va sichqoncha kursori -->
+      <a-entity
+    camera
+    position="0 1.6 0"
+    look-controls
+    wasd-controls
+    cursor="rayOrigin: mouse; fuse: false"
+    raycaster="objects: .clickable; far: 20">
+</a-entity>
+
+    </a-scene>
+
+    <!-- JavaScript fayllari -->
+    <script src="js/progress.js"></script>
+    <script src="js/simulation.js"></script>
+
+</body>
+</html>
